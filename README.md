@@ -1,8 +1,8 @@
 ---
-title: Skin Lesion Classification
-emoji:🏥
-colorFrom: purple
-colorTo: yellow
+title: Skin Lesion Classification Api
+emoji: 👁
+colorFrom: red
+colorTo: gray
 sdk: docker
 pinned: false
 ---
