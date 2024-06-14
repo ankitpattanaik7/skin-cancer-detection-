@@ -12,11 +12,7 @@ def load_model():
     return model
 
 def load_and_preprocess_image(image_bytes):
-    try:
-        image = tf.image.decode_jpeg(image_bytes, channels=3)
-    except tf.errors.InvalidArgumentError:
-        raise ValueError("The uploaded file is not a valid JPEG image.")
-    
+    image = tf.image.decode_image(image_bytes, channels=3)
     image = tf.image.resize(image, [260, 260])
     image = image / 255.0
     return image
@@ -42,9 +38,6 @@ def display() -> str:
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)) -> dict:
-    if file.content_type != "image/jpeg":
-        raise HTTPException(status_code=400, detail="Invalid image type. Only JPEG images are supported.")
-    
     model = load_model()
     image_bytes = await file.read()
     
