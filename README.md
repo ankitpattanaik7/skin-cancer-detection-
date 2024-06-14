@@ -1,10 +1,8 @@
 ---
-title: Skin Lesion Classification Api
-emoji: 👁
-colorFrom: red
-colorTo: gray
+title: Skin Lesion Classification
+emoji:🏥
+colorFrom: purple
+colorTo: yellow
 sdk: docker
 pinned: false
 ---
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
