@@ -8,4 +8,6 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
+RUN ["ifconfig"]
+
 CMD ["uvicorn", "app.main:app"]
