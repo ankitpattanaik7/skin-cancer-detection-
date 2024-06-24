@@ -18,19 +18,63 @@ def load_and_preprocess_image(image_bytes):
     return image
 
 def predict_image(model, image_bytes):
-    label_mapping = {"MEL":"Melanoma", "NV":"Melanocytic nevus", "BCC":"Basal cell carcinoma", "AK":"Actinic keratosis", 
-    "BKL":"Benign Keratosis", "DF":"Dermatofibroma", "VASC":"Vascular lesion", "SCC":"Squamous cell carcinoma"}
+    LABEL_MAP = {
+        "MEL":{
+                "label":"Melanoma",
+                "description": "Melanoma is a skin cancer that is characterized by the presence of melanocytes, which are cells that produce melanin.",
+                "link": "https://en.wikipedia.org/wiki/Melanoma"
+        },
+        "NV":{
+                "label":"Melanocytic nevus",
+                "description": "A melanocytic nevus is a benign skin lesion that is characterized by the presence of melanocytes. It is often found on the face, neck, and scalp.",
+                "link": "https://en.wikipedia.org/wiki/Melanocytic_nevus"
+        }, 
+        "BCC":{
+                "label":"Basal cell carcinoma",
+                "description": "Basal cell carcinoma is a type of skin cancer that is characterized by the presence of basal cells, which are cells that do not have a clear cell type.",
+                "link": "https://en.wikipedia.org/wiki/Basal_cell_carcinoma"
+        }, 
+        "AK":{
+                "label":"Actinic keratosis",
+                "description": "Actinic keratosis is a skin condition that is characterized by the presence of red, white, or yellow-brown patches on the skin. It is often caused by exposure to ultraviolet (UV) radiation.",
+                "link": "https://en.wikipedia.org/wiki/Actinic_keratosis"
+        }, 
+        "BKL":{
+                "label":"Benign Keratosis",
+                "description": "Benign keratosis is a skin condition that is characterized by the presence of red, white, or yellow-brown patches on the skin. It is often caused by exposure to ultraviolet (UV) radiation.",
+                "link": "https://en.wikipedia.org/wiki/Benign_keratosis"
+        }, 
+        "DF":{
+                "label":"Dermatofibroma",
+                "description": "Dermatofibroma is a skin cancer that is characterized by the presence of dermal fibroblasts, which are cells that are found on the skin.",
+                "link": "https://en.wikipedia.org/wiki/Dermatofibroma"
+        }, 
+        "VASC":{
+                "label":"Vascular lesion",
+                "description": "Vascular lesion is a skin condition that is characterized by the presence of blood vessels on the skin. It is often caused by exposure to ultraviolet (UV) radiation.",
+                "link": "https://en.wikipedia.org/wiki/Vascular_lesion"
+        }, 
+        "SCC":{
+                "label":"Squamous cell carcinoma",
+                "description": "Squamous cell carcinoma is a type of skin cancer that is characterized by the presence of squamous cells, which are cells that have a clear cell type.",
+                "link": "https://en.wikipedia.org/wiki/Squamous_cell_carcinoma"
+        }
+    }
     
     image = load_and_preprocess_image(image_bytes)
     image = tf.expand_dims(image, axis=0)
     predictions = model.predict(image)
     predicted_label = tf.argmax(predictions, axis=1)[0]
     predicted_label = predicted_label.numpy()
+    key_ = list(LABEL_MAP)[predicted_label]
     
     return {'id': int(predicted_label), 
-            'key': list(label_mapping)[predicted_label],
-            'label': str(label_mapping[list(label_mapping)[predicted_label]]).title(),
-            'confidence': float(predictions[0][predicted_label])}
+            'key': key_,
+            'confidence': float(predictions[0][predicted_label]),
+            'label': LABEL_MAP[key_]['label'],
+            'description': LABEL_MAP[key_]['description'],
+            'link': LABEL_MAP[key_]['link'],
+        }
 
 @app.get("/")
 def display() -> str:
