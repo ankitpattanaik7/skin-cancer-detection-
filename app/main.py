@@ -72,6 +72,7 @@ def predict_image(model, image_bytes):
             'key': key_,
             'confidence': float(predictions[0][predicted_label]),
             'label': LABEL_MAP[key_]['label'],
+            
             'description': LABEL_MAP[key_]['description'],
             'link': LABEL_MAP[key_]['link'],
         }
