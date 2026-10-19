@@ -9,6 +9,8 @@ pinned: false
 
 # Skin Lesion Classification
 
+Live Streamlit app: https://ytfdavcrk69ra8fbiimjef.streamlit.app/
+
 Streamlit frontend: deploy `streamlit_app.py` from the `main` branch on
 [Streamlit Community Cloud](https://share.streamlit.io/).
 
